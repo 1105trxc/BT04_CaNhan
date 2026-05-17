@@ -48,6 +48,16 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    // Match backend password policy (see src/middleware/authValidator.js)
+    const passwordPolicy = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordPolicy.test(password)) {
+      toast.dismiss();
+      toast.error('Password must include uppercase, lowercase, numbers, and special characters');
+      return;
+    }
+
     if (password !== confirmPassword) {
       toast.dismiss();
       toast.error('Passwords do not match');
